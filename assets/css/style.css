@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* h1 {
+    text-align: center;
+} */
+
+p {
+    padding: 0px 30%;
+}
+
+.scores {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    padding: 10px;
+}
+
+.time {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    padding: 10px;
+    margin: unset;
+}
+
+.start {
+    margin: auto;
+}

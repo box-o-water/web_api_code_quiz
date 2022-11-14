@@ -2,22 +2,15 @@
 
 ## Description
 
-A timed quiz that tracks high scores to showcase our current JavaScript and Web API knowledge, written completely from scratch. No starter code was provided.
-
-[Acceptance Criteria](#acceptance-criteria).
-
-To view the deployed website, click [here](https://box-o-water.github.io/javascript_password_generator/).
-
-![Web APO Code Quiz](/assets/images/webapicodequizpreview.png)
-
-## Future Enhancements could include:
-
-* **This application is a work in progress.**
+A timed quiz that tracks high scores to showcase our current JavaScript and Web API knowledge, written completely from scratch. No starter code was provided. See the [Acceptance Criteria](#acceptance-criteria).
 
 To view the deployed website, click [here](https://box-o-water.github.io/web_api_code_quiz/).
 
 ![Web API Code Quiz](/assets/images/webapicodequizpreview.png)
 
+## Future Enhancements could include:
+
+* **This application is a work in progress.**
 
 ## Our Task
 
@@ -61,3 +54,7 @@ THEN I can save my initials and my score
 The following animation demonstrates the application functionality:
 
 ![A user clicks through an interactive coding quiz, then enters initials to save the high score before resetting and starting over.](/assets/images/web-apis-homework-demo.gif)
+
+## License
+
+Licensed under the [MIT](/LICENSE) license.

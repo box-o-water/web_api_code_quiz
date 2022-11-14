@@ -8,11 +8,49 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Coding Quiz Challenge</h1>
-    <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-    <a class="scores" href="#scores">View High Scores</a>
-    <p class="timer"></p>
-    <button id="start-button" class="start-button">Start Quiz</button>
+    <!-- High Scores link and Timer -->
+    <section>
+        <a class="scores" href="#high-scores">View High Scores</a>
+        <p class="timer"></p>
+    </section>
+
+    <!-- Start page -->
+    <section id="start-page" class="start-page">
+        <h1>Coding Quiz Challenge</h1>
+        <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+        <button id="start-button" class="button">Start Quiz</button>
+    </section>
+
+    <!-- Questions page -->
+    <section id="questions" class="hide">
+        <form class="choices">
+            <h2>question 1</h2>
+            <input type="submit" value="choice 1">
+            <input type="submit" value="choice 2">
+            <input type="submit" value="choice 3">
+            <input type="submit" value="choice 4">
+            <br>
+            <input type="submit" value="tmp finish" id="tmp-finish">
+        </form>
+    </section>
+
+    <!-- All Done page -->
+    <section id="all-done" class="hide">
+        <form class="who">
+            <h2>All Done</h2>
+            <label for="initials">Enter Initials:</label>
+            <input type="text" name="initials" id="initials">
+            <button id="submit">Submit</button>
+        </form>
+    </section>
+
+    <!-- High Scores page -->
+    <section id="high-scores" class="hide">
+        <h2>High Scores</h2>
+        <ul id="high-scores-list"></ul>
+        <button id="play-again" class="button">Play Again</button>
+    </section>
+
     <script src="script.js"></script>
 </body>
 </html>

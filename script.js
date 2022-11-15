@@ -1,15 +1,15 @@
-var timer = document.querySelector(".timer");
-var timerCount;
-var startPage = document.getElementById("start-page");
-var startButton = document.getElementById("start-button");
-var questions = document.getElementById("questions");
-var tmpFinish = document.getElementById("tmp-finish"); 
-var allDone = document.getElementById("all-done");
-var initialsInput = document.getElementById("initials");
-var submitButton = document.getElementById("submit");
-var highScores = document.getElementById("high-scores");
-var highScoresList = document.getElementById("high-scores-list");
-var playAgain = document.getElementById("play-again");
+let timer = document.querySelector(".timer");
+let timerCount;
+let startPage = document.getElementById("start-page");
+let startButton = document.getElementById("start-button");
+let questions = document.getElementById("questions");
+let tmpFinish = document.getElementById("tmp-finish"); 
+let allDone = document.getElementById("all-done");
+let initialsInput = document.getElementById("initials");
+let submitButton = document.getElementById("submit");
+let highScores = document.getElementById("high-scores");
+let highScoresList = document.getElementById("high-scores-list");
+let playAgain = document.getElementById("play-again");
 
 function init() {
   defaultStart()
@@ -28,13 +28,13 @@ function startGame() {
   startButton.disabled = true;
   // renderQuestions()
   startTimer()
-  console.log("hi");
+  console.log("start timer");
   startPage.setAttribute("class", "hide");
   questions.setAttribute("class", "show");
 }
 
 function startTimer() {
-  var timeInterval = setInterval(function() {
+  let timeInterval = setInterval(function() {
     timerCount--;
     timer.textContent = "Time " + timerCount;
     // if (timerCount >= 0) {
@@ -50,7 +50,7 @@ function startTimer() {
       // Clears interval
       clearInterval(timeInterval);
       // loseGame();
-      console.log("bye");
+      console.log("end timer");
     }
   }, 1000);
 }
@@ -64,41 +64,54 @@ function endGame(event) {
   allDone.setAttribute("class", "show");
 }
 
-var players = [];
+let players = [];
+let storedPlayers = [];
 
 submitButton.addEventListener("click", function(event) {
   event.preventDefault();
   
   // create player object from submission
-  var player = {
+  let player = {
       initials: initialsInput.value.trim(),
-      score: ""
+      score: Math.floor(Math.random() * 50)
   };
 
+  initialsInput.value = "";
+
   players.push(player)
+  console.log("players: ", players);
   localStorage.setItem("players", JSON.stringify(players));
-  console.log(players);
+
+  clearHighScores();
   renderHighScores();
 });
 
-// NEXT: working on rendering a list of players
+function clearHighScores() {
+  let ol = document.getElementById("high-scores-list");
+
+  ol.innerHTML = "";
+}
+
 function renderHighScores() {
   allDone.setAttribute("class", "hide");
-  highScores.setAttribute("class", "show");
+  highScores.setAttribute("class", "show left");
 
-  var storedPlayers = JSON.parse(localStorage.getItem("players"));
+  storedPlayers = JSON.parse(localStorage.getItem("players"));
 
-  // Render a new li for each player
-  for (var i = 0; i < storedPlayers.length; i++) {
+  // sort storedPlayers by score
+  storedPlayers.sort(function(a, b) {
+      return b.score - a.score;
+  });
 
-    var playee = players[i];
+  for (let i = 0; i < storedPlayers.length; i++) {
 
-    var li = document.createElement("li");
-    
-    li.textContent = playee;
-    li.setAttribute("data-index", i);
+    let li = document.createElement("li");
 
-    highScoresList.appendChild(li);
+    li.textContent = storedPlayers[i].initials + " - " + storedPlayers[i].score;
+
+    let ol = document.getElementById("high-scores-list");
+
+    ol.appendChild(li);
   }
 }
 

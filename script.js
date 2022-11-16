@@ -9,6 +9,7 @@ let initialsInput = document.getElementById("initials");
 let submitButton = document.getElementById("submit");
 let highScores = document.getElementById("high-scores");
 let highScoresList = document.getElementById("high-scores-list");
+let highScoresLink = document.getElementById("high-scores-link");
 let playAgain = document.getElementById("play-again");
 
 function init() {
@@ -54,6 +55,13 @@ function startTimer() {
     }
   }, 1000);
 }
+
+highScoresLink.addEventListener("click", function(event) {
+  event.preventDefault();
+  startPage.setAttribute("class", "hide");
+  clearHighScores();
+  renderHighScores();
+});
 
 // Temporary functionality to bypass question anwering and end game
 tmpFinish.addEventListener("click", endGame);

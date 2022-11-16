@@ -142,6 +142,7 @@ clearScores.addEventListener("click", function(event) {
   console.log("clear scores");
   clearHighScores()
   clearHighScoresStorage()
+  players = []
 });
 
 init();

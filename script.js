@@ -11,6 +11,7 @@ let highScores = document.getElementById("high-scores");
 let highScoresList = document.getElementById("high-scores-list");
 let highScoresLink = document.getElementById("high-scores-link");
 let playAgain = document.getElementById("play-again");
+let clearScores = document.getElementById("clear-scores");
 
 function init() {
   defaultStart()
@@ -59,6 +60,7 @@ function startTimer() {
 highScoresLink.addEventListener("click", function(event) {
   event.preventDefault();
   startPage.setAttribute("class", "hide");
+  questions.setAttribute("class", "hide");
   clearHighScores();
   renderHighScores();
 });
@@ -100,9 +102,13 @@ function clearHighScores() {
   ol.innerHTML = "";
 }
 
+function clearHighScoresStorage() {
+  localStorage.clear(players);
+}
+
 function renderHighScores() {
   allDone.setAttribute("class", "hide");
-  highScores.setAttribute("class", "show left");
+  highScores.setAttribute("class", "show");
 
   storedPlayers = JSON.parse(localStorage.getItem("players"));
 
@@ -129,6 +135,13 @@ playAgain.addEventListener("click", function(event) {
   startPage.setAttribute("class", "show");
   console.log("play again");
   defaultStart()
+});
+
+clearScores.addEventListener("click", function(event) {
+  event.preventDefault();
+  console.log("clear scores");
+  clearHighScores()
+  clearHighScoresStorage()
 });
 
 init();

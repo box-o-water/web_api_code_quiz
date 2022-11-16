@@ -23,6 +23,10 @@ p {
     margin: unset;
 }
 
+.button-row {
+    flex-direction: row;
+}
+
 .button {
     margin: auto;
 }

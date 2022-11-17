@@ -1,85 +1,100 @@
+// global page variables
+
 let timer = document.querySelector(".timer");
 let timerCount;
-let startPage = document.getElementById("start-page");
-let startButton = document.getElementById("start-button");
-let questions = document.getElementById("questions");
-let tmpFinish = document.getElementById("tmp-finish"); 
-let allDone = document.getElementById("all-done");
-let initialsInput = document.getElementById("initials");
-let submitButton = document.getElementById("submit");
-let highScores = document.getElementById("high-scores");
-let highScoresList = document.getElementById("high-scores-list");
-let highScoresLink = document.getElementById("high-scores-link");
-let playAgain = document.getElementById("play-again");
-let clearScores = document.getElementById("clear-scores");
 
+let startPage = document.getElementById("start-page");
+let questionsPage = document.getElementById("questions-page");
+let allDonePage = document.getElementById("all-done-page");
+let highScoresPage = document.getElementById("high-scores-page");
+
+let initialsInput = document.getElementById("initials");
+
+let startQuizBtn = document.getElementById("start-quiz-button");
+let endQuizBtn = document.getElementById("end-quiz-btn"); 
+let submitBtn = document.getElementById("submit-btn");
+let playAgainBtn = document.getElementById("play-again-btn");
+let clearScoresBtn = document.getElementById("clear-scores-btn");
+
+let highScoresLink = document.getElementById("high-scores-link");
+
+// start / home page
 function init() {
+  console.log("init");
   defaultStart()
 }
 
 function defaultStart() {
+  console.log("default Start Quiz page");
   timer.textContent = "Time 0"
-  startButton.disabled = false;
 }
 
-startButton.addEventListener("click", startGame);
+// playing the quiz
+startQuizBtn.addEventListener("click", function() {
+  console.log("start quiz button");
+  startQuiz();
+});
 
-function startGame() {
+function startQuiz() {
+  console.log("starting quiz");
   timerCount = 5;
   timer.textContent = "Time " + timerCount;
-  startButton.disabled = true;
   // renderQuestions()
   startTimer()
-  console.log("start timer");
   startPage.setAttribute("class", "hide");
-  questions.setAttribute("class", "show");
+  questionsPage.setAttribute("class", "show");
 }
 
 function startTimer() {
+  console.log("starting timer");
   let timeInterval = setInterval(function() {
     timerCount--;
     timer.textContent = "Time " + timerCount;
+    console.log("ending timer");
     // if (timerCount >= 0) {
     //   // Tests if win condition is met
     //   if (isWin && timerCount > 0) {
     //     // Clears interval and stops timer
     //     clearInterval(timer);
-    //     winGame();
+    //     winQuiz();
     //   }
     // }
     // Tests if time has run out
     if (timerCount === 0) {
       // Clears interval
       clearInterval(timeInterval);
-      // loseGame();
-      console.log("end timer");
+      // loseQuiz();
     }
   }, 1000);
 }
 
 highScoresLink.addEventListener("click", function(event) {
   event.preventDefault();
+  console.log("view high scores link");
   startPage.setAttribute("class", "hide");
-  questions.setAttribute("class", "hide");
-  clearHighScores();
+  questionsPage.setAttribute("class", "hide");
+  clearRenderedPlayersHTML();
   renderHighScores();
 });
 
-// Temporary functionality to bypass question anwering and end game
-tmpFinish.addEventListener("click", endGame);
+// Temporary functionality to bypass question anwering and end quiz
+endQuizBtn.addEventListener("click", function() {
+  console.log("end quiz button");
+  endQuiz()
+});
 
-function endGame(event) {
-  event.preventDefault();
-  questions.setAttribute("class", "hide");
-  allDone.setAttribute("class", "show");
+function endQuiz() {
+  console.log("ending quiz");
+  questionsPage.setAttribute("class", "hide");
+  allDonePage.setAttribute("class", "show");
 }
 
 let players = [];
 let storedPlayers = [];
 
-submitButton.addEventListener("click", function(event) {
+submitBtn.addEventListener("click", function(event) {
   event.preventDefault();
-  
+  console.log("submit button");
   // create player object from submission
   let player = {
       initials: initialsInput.value.trim(),
@@ -91,57 +106,62 @@ submitButton.addEventListener("click", function(event) {
   players.push(player)
   console.log("players: ", players);
   localStorage.setItem("players", JSON.stringify(players));
-
-  clearHighScores();
+  clearRenderedPlayersHTML();
   renderHighScores();
 });
 
-function clearHighScores() {
-  let ol = document.getElementById("high-scores-list");
+function clearRenderedPlayersHTML() {
+  console.log("clearing rendered players from HTML");
 
-  ol.innerHTML = "";
+  let highScoresList = document.getElementById("high-scores-list");
+
+  highScoresList.innerHTML = "";
 }
 
-function clearHighScoresStorage() {
+function clearPlayersStorage() {
+  console.log("clearing players from local storage");
   localStorage.clear(players);
 }
 
 function renderHighScores() {
-  allDone.setAttribute("class", "hide");
-  highScores.setAttribute("class", "show");
+  console.log("rendering high scores, if any");
+  allDonePage.setAttribute("class", "hide");
+  highScoresPage.setAttribute("class", "show");
 
   storedPlayers = JSON.parse(localStorage.getItem("players"));
 
-  // sort storedPlayers by score
-  storedPlayers.sort(function(a, b) {
-      return b.score - a.score;
-  });
+  if (storedPlayers !== null) {
 
-  for (let i = 0; i < storedPlayers.length; i++) {
+    storedPlayers.sort(function(a, b) {
+        return b.score - a.score;
+    });
+  
+    for (let i = 0; i < storedPlayers.length; i++) {
 
-    let li = document.createElement("li");
+      let li = document.createElement("li");
 
-    li.textContent = storedPlayers[i].initials + " - " + storedPlayers[i].score;
+      li.textContent = storedPlayers[i].initials + " - " + storedPlayers[i].score;
 
-    let ol = document.getElementById("high-scores-list");
+      let ol = document.getElementById("high-scores-list");
 
-    ol.appendChild(li);
+      ol.appendChild(li);
+    }
   }
 }
 
-playAgain.addEventListener("click", function(event) {
+playAgainBtn.addEventListener("click", function(event) {
   event.preventDefault();
-  highScores.setAttribute("class", "hide");
+  console.log("play again button");
+  highScoresPage.setAttribute("class", "hide");
   startPage.setAttribute("class", "show");
-  console.log("play again");
   defaultStart()
 });
 
-clearScores.addEventListener("click", function(event) {
+clearScoresBtn.addEventListener("click", function(event) {
   event.preventDefault();
-  console.log("clear scores");
-  clearHighScores()
-  clearHighScoresStorage()
+  console.log("clear scores button");
+  clearRenderedPlayersHTML()
+  clearPlayersStorage()
   players = []
 });
 

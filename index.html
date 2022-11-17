@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
-    <title>Document</title>
+    <title>Web API Coding Quiz</title>
 </head>
 
 <body>
@@ -15,15 +15,15 @@
         <p class="timer"></p>
     </section>
 
-    <!-- Start page -->
+    <!-- Default Start/ Home page -->
     <section id="start-page" class="start-page">
         <h1>Coding Quiz Challenge</h1>
         <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-        <button id="start-button" class="button">Start Quiz</button>
+        <button id="start-quiz-button" class="button">Start Quiz</button>
     </section>
 
     <!-- Questions page -->
-    <section id="questions" class="hide">
+    <section id="questions-page" class="hide">
         <form class="choices">
             <h2>question 1</h2>
             <input type="submit" value="choice 1">
@@ -31,27 +31,27 @@
             <input type="submit" value="choice 3">
             <input type="submit" value="choice 4">
             <br>
-            <input type="submit" value="tmp finish" id="tmp-finish">
+            <input type="submit" value="End Quiz" id="end-quiz-btn">
         </form>
     </section>
 
     <!-- All Done page -->
-    <section id="all-done" class="hide">
+    <section id="all-done-page" class="hide">
         <form class="who">
             <h2>All Done</h2>
             <label for="initials">Enter Initials:</label>
             <input type="text" name="initials" id="initials">
-            <button id="submit">Submit</button>
+            <button id="submit-btn">Submit</button>
         </form>
     </section>
 
     <!-- High Scores page -->
-    <section id="high-scores" class="hide">
+    <section id="high-scores-page" class="hide">
         <h2>High Scores</h2>
         <ol id="high-scores-list" class="left"></ol>
         <div class="button-row">
-            <button id="play-again" class="button">Play Again</button>
-            <button id="clear-scores" class="button">Clear Scores</button>
+            <button id="play-again-btn" class="button">Play Again</button>
+            <button id="clear-scores-btn" class="button">Clear Scores</button>
         </div>
     </section>
 

@@ -3,10 +3,10 @@
 let timer = document.querySelector(".timer");
 let timerCount;
 
-let startPage = document.getElementById("start-page");
-let questionsPage = document.getElementById("questions-page");
-let allDonePage = document.getElementById("all-done-page");
-let highScoresPage = document.getElementById("high-scores-page");
+let startView = document.getElementById("start-view");
+let questionsView = document.getElementById("questions-view");
+let allDoneView = document.getElementById("all-done-view");
+let highScoresView = document.getElementById("high-scores-view");
 
 let initialsInput = document.getElementById("initials");
 
@@ -18,33 +18,39 @@ let clearScoresBtn = document.getElementById("clear-scores-btn");
 
 let highScoresLink = document.getElementById("high-scores-link");
 
-// start / home page
+let players = [];
+let storedPlayers = [];
+
+// The init function calls defaultStart
 function init() {
   console.log("init");
   defaultStart()
 }
 
+// The defaultStart function sets up the start / home view
 function defaultStart() {
-  console.log("default Start Quiz page");
+  console.log("default Start Quiz view");
   timer.textContent = "Time 0"
 }
 
-// playing the quiz
+// The startQuizBtn event listener calls startQuiz
 startQuizBtn.addEventListener("click", function() {
   console.log("start quiz button");
   startQuiz();
 });
 
+// The startQuiz function sets the timer and displays the questions view
 function startQuiz() {
   console.log("starting quiz");
   timerCount = 5;
   timer.textContent = "Time " + timerCount;
   // renderQuestions()
   startTimer()
-  startPage.setAttribute("class", "hide");
-  questionsPage.setAttribute("class", "show");
+  startView.setAttribute("class", "hide");
+  questionsView.setAttribute("class", "show");
 }
 
+// The startTimer function decrements and zeroes out the timer
 function startTimer() {
   console.log("starting timer");
   let timeInterval = setInterval(function() {
@@ -68,34 +74,34 @@ function startTimer() {
   }, 1000);
 }
 
+// The highScoresLink event listener clears/hides n/a views and calls renderHighScores
 highScoresLink.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("view high scores link");
-  startPage.setAttribute("class", "hide");
-  questionsPage.setAttribute("class", "hide");
+  startView.setAttribute("class", "hide");
+  questionsView.setAttribute("class", "hide");
   clearRenderedPlayersHTML();
   renderHighScores();
 });
 
-// Temporary functionality to bypass question anwering and end quiz
+// The endQuizBtn event listener calls the endQuiz function
 endQuizBtn.addEventListener("click", function() {
   console.log("end quiz button");
   endQuiz()
 });
 
+// The endQuiz function displays the all done view
 function endQuiz() {
   console.log("ending quiz");
-  questionsPage.setAttribute("class", "hide");
-  allDonePage.setAttribute("class", "show");
+  questionsView.setAttribute("class", "hide");
+  allDoneView.setAttribute("class", "show");
 }
 
-let players = [];
-let storedPlayers = [];
-
+// The submitBtn event listener pushes player objects to local storage and calls renderHighScores
 submitBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("submit button");
-  // create player object from submission
+
   let player = {
       initials: initialsInput.value.trim(),
       score: Math.floor(Math.random() * 50)
@@ -110,6 +116,7 @@ submitBtn.addEventListener("click", function(event) {
   renderHighScores();
 });
 
+// The clearRenderedPlayersHTML function clears the existing rendered HTML list in preparationto be repopulated with the new rendered list
 function clearRenderedPlayersHTML() {
   console.log("clearing rendered players from HTML");
 
@@ -118,15 +125,17 @@ function clearRenderedPlayersHTML() {
   highScoresList.innerHTML = "";
 }
 
+// The clearPlayersStorage function clears all players from local storage
 function clearPlayersStorage() {
   console.log("clearing players from local storage");
   localStorage.clear(players);
 }
 
+// The renderHighScores function displays the high scores view, sorts and renders players from local storage to HTML list elements
 function renderHighScores() {
   console.log("rendering high scores, if any");
-  allDonePage.setAttribute("class", "hide");
-  highScoresPage.setAttribute("class", "show");
+  allDoneView.setAttribute("class", "hide");
+  highScoresView.setAttribute("class", "show");
 
   storedPlayers = JSON.parse(localStorage.getItem("players"));
 
@@ -149,14 +158,16 @@ function renderHighScores() {
   }
 }
 
+// The playAgainBtn event listener displays the start view and calls defaultStart
 playAgainBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("play again button");
-  highScoresPage.setAttribute("class", "hide");
-  startPage.setAttribute("class", "show");
+  highScoresView.setAttribute("class", "hide");
+  startView.setAttribute("class", "show");
   defaultStart()
 });
 
+// The clearScoresBtn event listener clears players data from all possible locations
 clearScoresBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("clear scores button");

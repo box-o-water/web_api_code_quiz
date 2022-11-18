@@ -34,7 +34,8 @@ function defaultStart() {
 }
 
 // The startQuizBtn event listener calls startQuiz
-startQuizBtn.addEventListener("click", function() {
+startQuizBtn.addEventListener("click", function(event) {
+  event.preventDefault();
   console.log("start quiz button");
   startQuiz();
 });
@@ -85,7 +86,8 @@ highScoresLink.addEventListener("click", function(event) {
 });
 
 // The endQuizBtn event listener calls the endQuiz function
-endQuizBtn.addEventListener("click", function() {
+endQuizBtn.addEventListener("click", function(event) {
+  event.preventDefault();
   console.log("end quiz button");
   endQuiz()
 });

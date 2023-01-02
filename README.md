@@ -6,7 +6,7 @@ A timed quiz that tracks high scores to showcase our current JavaScript and Web 
 
 To view the deployed website, click [here](https://box-o-water.github.io/web_api_code_quiz/).
 
-![Web API Code Quiz](/assets/images/webapicodequizpreview.png)
+![Web API Code Quiz](/assets/images/web_api_code_quiz_preview.png)
 
 ## Our Task
 

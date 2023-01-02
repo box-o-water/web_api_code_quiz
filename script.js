@@ -9,12 +9,7 @@ let allDoneView = document.getElementById("all-done-view");
 let highScoresView = document.getElementById("high-scores-view");
 
 let questionIndex = 0;
-let question = document.getElementById("question")
-let choice1 = document.getElementById("choice1")
-let choice2 = document.getElementById("choice2")
-let choice3 = document.getElementById("choice3")
-let choice4 = document.getElementById("choice4")
-let answer = ""
+let displayQuestion = document.getElementById("display-question")
 
 let initialsInput = document.getElementById("initials");
 
@@ -48,8 +43,6 @@ startQuizBtn.addEventListener("click", function(event) {
   startQuiz();
 });
 
-
-
 // The startQuiz function sets the timer and displays the questions view
 function startQuiz() {
   console.log("starting quiz");
@@ -58,21 +51,36 @@ function startQuiz() {
   timerCount = 5; // TODO replace with below line
   // timerCount = questions.length * 10
   timer.textContent = "Time " + timerCount;
-  renderQuestions()
+  renderQuestion()
   startTimer()
   startView.setAttribute("class", "hide");
   questionsView.setAttribute("class", "show");
 }
 
-function renderQuestions() {
-    console.log(questions[questionIndex]);
-    console.log(questions[questionIndex].choices[0]);
-  
-    question.innerHTML = questions[questionIndex].question
-    choice1.innerHTML = questions[questionIndex].choices[0]
-    choice2.innerHTML = questions[questionIndex].choices[1]
-    choice3.innerHTML = questions[questionIndex].choices[2]
-    choice4.innerHTML = questions[questionIndex].choices[3]
+function renderQuestion() {
+  let index = questionsArray[questionIndex]
+  console.log("render question " + index.question );
+  // console.log(questionsArray[questionIndex]);
+  // console.log(questionsArray[questionIndex].choices.length);
+  // console.log(questionsArray[questionIndex].choices[0]);
+
+  let question = document.createElement("h2");
+  question.textContent = index.question
+  displayQuestion.appendChild(question)
+
+  // create a button for each choice
+  for (var i = 0; i < index.choices.length; i++) {
+
+    var btn = document.createElement("button");
+    btn.setAttribute("class", "button")
+    btn.textContent = index.choices[i]
+    btn.addEventListener("click", function (event) {
+      event.preventDefault();
+      console.log(this.textContent);
+    })
+
+    displayQuestion.appendChild(btn);
+  }
 }
 
 // The startTimer function decrements and zeroes out the timer
@@ -202,16 +210,16 @@ clearScoresBtn.addEventListener("click", function(event) {
   players = []
 });
 
-let questions = [
+let questionsArray = [
   {
     question: "What is the answer to the ultimate question of life, the universe, and everything?",
-    choices: ["red", "flowers", "42", "cats"],
+    choices: ["wine", "bath", "42", "cats"],
     answer: "42"
   },
   {
     question: "What wine varietal should I drink tonight?",
-    choices: ["cabernet sauvignon", "cabernet sauvignon", "cabernet sauvignon", "cabernet sauvignon"],
-    answer: "parentheses"
+    choices: ["cab", "cab sav", "cabernet", "cabernet sauvignon", "all of the above"],
+    answer: "all of the above"
   }
 ];
 

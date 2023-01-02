@@ -8,6 +8,14 @@ let questionsView = document.getElementById("questions-view");
 let allDoneView = document.getElementById("all-done-view");
 let highScoresView = document.getElementById("high-scores-view");
 
+let questionIndex = 0;
+let question = document.getElementById("question")
+let choice1 = document.getElementById("choice1")
+let choice2 = document.getElementById("choice2")
+let choice3 = document.getElementById("choice3")
+let choice4 = document.getElementById("choice4")
+let answer = ""
+
 let initialsInput = document.getElementById("initials");
 
 let startQuizBtn = document.getElementById("start-quiz-button");
@@ -40,15 +48,31 @@ startQuizBtn.addEventListener("click", function(event) {
   startQuiz();
 });
 
+
+
 // The startQuiz function sets the timer and displays the questions view
 function startQuiz() {
   console.log("starting quiz");
-  timerCount = 5;
+
+  // TODO move some timer stuff to startTimer
+  timerCount = 5; // TODO replace with below line
+  // timerCount = questions.length * 10
   timer.textContent = "Time " + timerCount;
-  // renderQuestions()
+  renderQuestions()
   startTimer()
   startView.setAttribute("class", "hide");
   questionsView.setAttribute("class", "show");
+}
+
+function renderQuestions() {
+    console.log(questions[questionIndex]);
+    console.log(questions[questionIndex].choices[0]);
+  
+    question.innerHTML = questions[questionIndex].question
+    choice1.innerHTML = questions[questionIndex].choices[0]
+    choice2.innerHTML = questions[questionIndex].choices[1]
+    choice3.innerHTML = questions[questionIndex].choices[2]
+    choice4.innerHTML = questions[questionIndex].choices[3]
 }
 
 // The startTimer function decrements and zeroes out the timer
@@ -177,5 +201,18 @@ clearScoresBtn.addEventListener("click", function(event) {
   clearPlayersStorage()
   players = []
 });
+
+let questions = [
+  {
+    question: "What is the answer to the ultimate question of life, the universe, and everything?",
+    choices: ["red", "flowers", "42", "cats"],
+    answer: "42"
+  },
+  {
+    question: "What wine varietal should I drink tonight?",
+    choices: ["cabernet sauvignon", "cabernet sauvignon", "cabernet sauvignon", "cabernet sauvignon"],
+    answer: "parentheses"
+  }
+];
 
 init();

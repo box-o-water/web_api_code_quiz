@@ -8,6 +8,23 @@ p {
     padding: 0px 30%;
 }
 
+hr {
+    background-color: lightgrey;
+    width: 95%; 
+    height: 1px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-left: 13%;
+    margin-right: 13%;
+}
+
+.top {
+    margin-bottom: 20px;
+}
+
 .scores {
     position: fixed;
     top: 0px;
@@ -28,7 +45,7 @@ p {
 }
 
 .button {
-    margin: auto;
+    margin: 4px auto;
 }
 
 .hide {

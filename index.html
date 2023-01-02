@@ -10,7 +10,7 @@
 
 <body>
     <!-- High Scores link and Timer -->
-    <section>
+    <section class="top">
         <a id="high-scores-link" class="scores" href="#high-scores">View High Scores</a>
         <p class="timer"></p>
     </section>
@@ -18,17 +18,17 @@
     <!-- Default Start/ Home view -->
     <section id="start-view" class="start-view">
         <h1>Coding Quiz Challenge</h1>
-        <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+        <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by 5 seconds!</p>
         <button id="start-quiz-button" class="button">Start Quiz</button>
     </section>
 
     <!-- Questions view -->
     <section id="questions-view" class="hide">
-        <form>
-            <div class="choices" id="display-question"></div>
-            <br>
-            <button class="button" id="end-quiz-btn">End Quiz</button>
-        </form>
+        <hr>
+        <div class="choices" id="display-question"></div>
+        <hr>
+        <button class="end-quiz-button button" id="end-quiz-btn">End Quiz</button>
+        <div id="choice-accuracy"></div>
     </section>
 
     <!-- All Done view -->

@@ -8,18 +8,6 @@ To view the deployed website, click [here](https://box-o-water.github.io/web_api
 
 ![Web API Code Quiz](/assets/images/webapicodequizpreview.png)
 
-## Current Status
-
-* **This application is a work in progress.** 
-
-* The questions aren't integrated yet, nor is the game logic itself.
-
-* What does exist is the framework of views and ability to navigate between the views via buttons and links.
-
-* For now, the Question choices do not work, but the End Quiz button will bypass to the All Done view, where logic IS working to enter initials, render High Scores, and clear the scores.
-
-* The View High Scores link also works; the Timer is minimally set to start at 5 seconds upon clicking the Start Quiz button, and stops at 0.
-
 ## Our Task
 
 At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment;perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges. 

@@ -1,15 +1,19 @@
 // global page variables
 
 let timer = document.querySelector(".timer");
+let timeInterval;
 let timerCount;
+let finalTimer;
 
 let startView = document.getElementById("start-view");
 let questionsView = document.getElementById("questions-view");
 let allDoneView = document.getElementById("all-done-view");
 let highScoresView = document.getElementById("high-scores-view");
 
-let questionIndex = 0;
+let questionIndex;
 let displayQuestion = document.getElementById("display-question")
+
+let choiceAccuracy = document.getElementById("choice-accuracy")
 
 let initialsInput = document.getElementById("initials");
 
@@ -47,22 +51,25 @@ startQuizBtn.addEventListener("click", function(event) {
 function startQuiz() {
   console.log("starting quiz");
 
-  // TODO move some timer stuff to startTimer
-  timerCount = 5; // TODO replace with below line
-  // timerCount = questions.length * 10
+  // reset for 'play again'
+  questionIndex = 0;
+  displayQuestion.innerHTML = ""
+
+  startView.setAttribute("class", "hide");
+  questionsView.setAttribute("class", "show");
+
+  timerCount = questionsArray.length * 15
   timer.textContent = "Time " + timerCount;
   renderQuestion()
   startTimer()
-  startView.setAttribute("class", "hide");
-  questionsView.setAttribute("class", "show");
 }
 
+// The renderQuestion function will display the question and choices
+// associated with the current questionIndex value
 function renderQuestion() {
+  console.log("renderQuestion questionIndex: " + questionIndex);
   let index = questionsArray[questionIndex]
   console.log("render question " + index.question );
-  // console.log(questionsArray[questionIndex]);
-  // console.log(questionsArray[questionIndex].choices.length);
-  // console.log(questionsArray[questionIndex].choices[0]);
 
   let question = document.createElement("h2");
   question.textContent = index.question
@@ -74,35 +81,72 @@ function renderQuestion() {
     var btn = document.createElement("button");
     btn.setAttribute("class", "button")
     btn.textContent = index.choices[i]
-    btn.addEventListener("click", function (event) {
-      event.preventDefault();
-      console.log(this.textContent);
-    })
+    btn.addEventListener("click", checkGuess) 
 
     displayQuestion.appendChild(btn);
+  }
+}
+
+// The checkGuess function will check if the guess was correct
+// and load the next question,
+// or decrement the timer 5 seconds if it was incorrect
+function checkGuess() {
+  console.log("guessed " + this.textContent);
+  console.log("answer is " + questionsArray[questionIndex].answer);
+  console.log(questionIndex);
+
+  if (this.textContent !== questionsArray[questionIndex].answer) {
+    console.log("incorrect")
+
+    let incorrect = document.createElement("h4");
+    incorrect.textContent = "Incorrect!"
+    choiceAccuracy.appendChild(incorrect)
+
+    setTimeout(function () {
+      incorrect.setAttribute("class", "hide");
+    }, 1000);
+
+    if (timerCount > 5) {
+      timerCount -= 5;
+    } else {
+
+      finalTimer = 0;
+      endQuiz()
+    }
+
+  } else {
+    console.log("correct");
+
+    let correct = document.createElement("h4");
+    correct.textContent = "Correct!"
+    choiceAccuracy.appendChild(correct)
+
+    setTimeout(function () {
+      correct.setAttribute("class", "hide");
+    }, 1000);
+
+    displayQuestion.innerHTML = ""
+    questionIndex++;
+
+    if (questionIndex === questionsArray.length) {
+      finalTimer = timerCount;
+      endQuiz();
+    } else {
+      renderQuestion()
+    }
   }
 }
 
 // The startTimer function decrements and zeroes out the timer
 function startTimer() {
   console.log("starting timer");
-  let timeInterval = setInterval(function() {
+
+  timeInterval = setInterval(function() {
     timerCount--;
     timer.textContent = "Time " + timerCount;
     console.log("ending timer");
-    // if (timerCount >= 0) {
-    //   // Tests if win condition is met
-    //   if (isWin && timerCount > 0) {
-    //     // Clears interval and stops timer
-    //     clearInterval(timer);
-    //     winQuiz();
-    //   }
-    // }
-    // Tests if time has run out
     if (timerCount === 0) {
-      // Clears interval
       clearInterval(timeInterval);
-      // loseQuiz();
     }
   }, 1000);
 }
@@ -121,14 +165,24 @@ highScoresLink.addEventListener("click", function(event) {
 endQuizBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("end quiz button");
+  finalTimer = 0;
   endQuiz()
 });
 
 // The endQuiz function displays the all done view
 function endQuiz() {
   console.log("ending quiz");
+
+  clearInterval(timeInterval)
+  timer.textContent = "Time 0"
+
+  let end = document.createElement("h4");
+  end.textContent = "Your score: " + finalTimer
+  allDoneView.appendChild(end)
+
   questionsView.setAttribute("class", "hide");
   allDoneView.setAttribute("class", "show");
+
 }
 
 // The submitBtn event listener pushes player objects to local storage and calls renderHighScores
@@ -138,7 +192,7 @@ submitBtn.addEventListener("click", function(event) {
 
   let player = {
       initials: initialsInput.value.trim(),
-      score: Math.floor(Math.random() * 50)
+      score: finalTimer
   };
 
   initialsInput.value = "";
@@ -210,17 +264,45 @@ clearScoresBtn.addEventListener("click", function(event) {
   players = []
 });
 
+init();
+
 let questionsArray = [
   {
+    question: "Commonly used data types DO NOT include:",
+    choices: ["strings", "booleans", "alerts", "numbers"],
+    answer: "alerts"
+  },
+  {
+    question: "The condition in an if / else statement is enclosed within _____.",
+    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+    answer: "parentheses"
+  },
+  {
+    question: "Arrays in JavaScript can be used to store _____.",
+    choices: [
+      "numbers and strings", "other arrays", "booleans", "all of the above"],
+    answer: "all of the above"
+  },
+  {
+    question:
+      "String values must be enclosed within _____ when being assigned to variables.",
+    choices: ["commas", "curly brackets", "quotes", "parentheses"],
+    answer: "quotes"
+  },
+  {
+    question:
+      "A very useful tool used during development and debugging for printing content to the debugger is:",
+    choices: ["JavaScript", "terminal / bash", "for loops", "console.log"],
+    answer: "console.log"
+  },
+  {
     question: "What is the answer to the ultimate question of life, the universe, and everything?",
-    choices: ["wine", "bath", "42", "cats"],
+    choices: ["wine", "a warm bath", "42", "cats"],
     answer: "42"
   },
   {
     question: "What wine varietal should I drink tonight?",
-    choices: ["cab", "cab sav", "cabernet", "cabernet sauvignon", "all of the above"],
-    answer: "all of the above"
+    choices: ["cab", "cab sav", "cabernet", "cabernet sauvignon", "any of the above"],
+    answer: "any of the above"
   }
 ];
-
-init();

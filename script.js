@@ -28,26 +28,26 @@ let highScoresLink = document.getElementById("high-scores-link");
 let players = [];
 let storedPlayers = [];
 
-// The init function calls defaultStart
+// The init function calls defaultStart.
 function init() {
   console.log("init");
   defaultStart()
 }
 
-// The defaultStart function sets up the start / home view
+// The defaultStart function sets up the start / home view.
 function defaultStart() {
   console.log("default Start Quiz view");
   timer.textContent = "Time 0"
 }
 
-// The startQuizBtn event listener calls startQuiz
+// The startQuizBtn event listener calls startQuiz.
 startQuizBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("start quiz button");
   startQuiz();
 });
 
-// The startQuiz function sets the timer and displays the questions view
+// The startQuiz function sets the timer and displays the questions view.
 function startQuiz() {
   console.log("starting quiz");
 
@@ -65,7 +65,7 @@ function startQuiz() {
 }
 
 // The renderQuestion function will display the question and choices
-// associated with the current questionIndex value
+// associated with the current questionIndex value.
 function renderQuestion() {
   console.log("renderQuestion questionIndex: " + questionIndex);
   let index = questionsArray[questionIndex]
@@ -87,9 +87,8 @@ function renderQuestion() {
   }
 }
 
-// The checkGuess function will check if the guess was correct
-// and load the next question,
-// or decrement the timer 5 seconds if it was incorrect
+// The checkGuess function will check if the guess was correct and load the next question,
+// or decrement the timer 5 seconds if it was incorrect.
 function checkGuess() {
   console.log("guessed " + this.textContent);
   console.log("answer is " + questionsArray[questionIndex].answer);
@@ -99,7 +98,7 @@ function checkGuess() {
     console.log("incorrect")
 
     let incorrect = document.createElement("h4");
-    incorrect.textContent = "Incorrect!"
+    incorrect.textContent = "Incorrect, 5 second have been deducted!"
     choiceAccuracy.appendChild(incorrect)
 
     setTimeout(function () {
@@ -117,14 +116,6 @@ function checkGuess() {
   } else {
     console.log("correct");
 
-    let correct = document.createElement("h4");
-    correct.textContent = "Correct!"
-    choiceAccuracy.appendChild(correct)
-
-    setTimeout(function () {
-      correct.setAttribute("class", "hide");
-    }, 1000);
-
     displayQuestion.innerHTML = ""
     questionIndex++;
 
@@ -137,21 +128,22 @@ function checkGuess() {
   }
 }
 
-// The startTimer function decrements and zeroes out the timer
+// The startTimer function decrements and zeroes out the timer.
 function startTimer() {
   console.log("starting timer");
 
   timeInterval = setInterval(function() {
     timerCount--;
     timer.textContent = "Time " + timerCount;
-    console.log("ending timer");
+
     if (timerCount === 0) {
       clearInterval(timeInterval);
+      endQuiz()
     }
   }, 1000);
 }
 
-// The highScoresLink event listener clears/hides n/a views and calls renderHighScores
+// The highScoresLink event listener clears/hides n/a views and calls renderHighScores.
 highScoresLink.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("view high scores link");
@@ -161,7 +153,7 @@ highScoresLink.addEventListener("click", function(event) {
   renderHighScores();
 });
 
-// The endQuizBtn event listener calls the endQuiz function
+// The endQuizBtn event listener calls the endQuiz function.
 endQuizBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("end quiz button");
@@ -169,23 +161,35 @@ endQuizBtn.addEventListener("click", function(event) {
   endQuiz()
 });
 
-// The endQuiz function displays the all done view
+// The deleteYourScore function deletes elements with id of your-score
+// to eliminate duplicate elements during 'play again'.
+function deleteYourScore() {
+
+  let checkYourScore = document.getElementById("your-score")
+  if(typeof(checkYourScore) != 'undefined' && checkYourScore != null){
+    checkYourScore.remove()
+  }
+}
+
+// The endQuiz function displays the all done view.
 function endQuiz() {
   console.log("ending quiz");
+
+  deleteYourScore()
 
   clearInterval(timeInterval)
   timer.textContent = "Time 0"
 
-  let end = document.createElement("h4");
-  end.textContent = "Your score: " + finalTimer
-  allDoneView.appendChild(end)
+  let yourScore = document.createElement("h4");
+  yourScore.setAttribute("id", "your-score")
+  yourScore.textContent = "Your score: " + finalTimer
+  allDoneView.appendChild(yourScore)
 
   questionsView.setAttribute("class", "hide");
   allDoneView.setAttribute("class", "show");
-
 }
 
-// The submitBtn event listener pushes player objects to local storage and calls renderHighScores
+// The submitBtn event listener pushes player objects to local storage and calls renderHighScores.
 submitBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("submit button");
@@ -204,7 +208,8 @@ submitBtn.addEventListener("click", function(event) {
   renderHighScores();
 });
 
-// The clearRenderedPlayersHTML function clears the existing rendered HTML list in preparationto be repopulated with the new rendered list
+// The clearRenderedPlayersHTML function clears the existing rendered HTML list
+// in preparationto be repopulated with the new rendered list.
 function clearRenderedPlayersHTML() {
   console.log("clearing rendered players from HTML");
 
@@ -213,13 +218,14 @@ function clearRenderedPlayersHTML() {
   highScoresList.innerHTML = "";
 }
 
-// The clearPlayersStorage function clears all players from local storage
+// The clearPlayersStorage function clears all players from local storage.
 function clearPlayersStorage() {
   console.log("clearing players from local storage");
   localStorage.clear(players);
 }
 
-// The renderHighScores function displays the high scores view, sorts and renders players from local storage to HTML list elements
+// The renderHighScores function displays the high scores view, sorts,
+// and renders players from local storage to HTML list elements.
 function renderHighScores() {
   console.log("rendering high scores, if any");
   allDoneView.setAttribute("class", "hide");
@@ -246,16 +252,19 @@ function renderHighScores() {
   }
 }
 
-// The playAgainBtn event listener displays the start view and calls defaultStart
+// The playAgainBtn event listener displays the start view and calls defaultStart.
 playAgainBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("play again button");
+
+  deleteYourScore()
+
   highScoresView.setAttribute("class", "hide");
   startView.setAttribute("class", "show");
   defaultStart()
 });
 
-// The clearScoresBtn event listener clears players data from all possible locations
+// The clearScoresBtn event listener clears players data from all possible locations.
 clearScoresBtn.addEventListener("click", function(event) {
   event.preventDefault();
   console.log("clear scores button");
@@ -297,7 +306,7 @@ let questionsArray = [
   },
   {
     question: "What is the answer to the ultimate question of life, the universe, and everything?",
-    choices: ["wine", "a warm bath", "42", "cats"],
+    choices: ["wine", "42", "a warm bath", "cats"],
     answer: "42"
   },
   {
